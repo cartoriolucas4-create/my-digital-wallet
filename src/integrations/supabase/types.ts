@@ -14,7 +14,136 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      document_files: {
+        Row: {
+          created_at: string
+          document_id: string
+          id: string
+          mime_type: string
+          original_name: string | null
+          position: number
+          side: string
+          size_bytes: number | null
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          id?: string
+          mime_type: string
+          original_name?: string | null
+          position?: number
+          side?: string
+          size_bytes?: number | null
+          storage_path: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          id?: string
+          mime_type?: string
+          original_name?: string | null
+          position?: number
+          side?: string
+          size_bytes?: number | null
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_files_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          category_id: string | null
+          cover_file_id: string | null
+          created_at: string
+          expires_at: string | null
+          holder: string | null
+          id: string
+          is_archived: boolean
+          is_favorite: boolean
+          name: string
+          notes: string | null
+          number: string | null
+          reminder_days: number
+          tags: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category_id?: string | null
+          cover_file_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          holder?: string | null
+          id?: string
+          is_archived?: boolean
+          is_favorite?: boolean
+          name: string
+          notes?: string | null
+          number?: string | null
+          reminder_days?: number
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          category_id?: string | null
+          cover_file_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          holder?: string | null
+          id?: string
+          is_archived?: boolean
+          is_favorite?: boolean
+          name?: string
+          notes?: string | null
+          number?: string | null
+          reminder_days?: number
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
