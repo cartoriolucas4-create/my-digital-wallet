@@ -1,0 +1,16 @@
+{
+  "name": "Minha Carteira Digital",
+  "short_name": "Carteira",
+  "description": "Seus documentos pessoais, organizados e privados.",
+  "start_url": "/carteira",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f1424",
+  "theme_color": "#0f1424",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
