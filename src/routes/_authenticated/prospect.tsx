@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
   Activity, BarChart3, Building2, Check, ChevronDown, ChevronLeft, ChevronRight, Clipboard,
-  Download, ExternalLink, LayoutDashboard, MapPin, MessageSquare, Plus, Search,
+  Download, ExternalLink, LayoutDashboard, MapPin, MessageSquare, Phone, Plus, Search,
   Send, Settings, ShieldAlert, Users, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -134,16 +134,16 @@ function Prospect(){
   }
   async function openWhatsApp(){
     if(!current)return;
-    const popup=window.open("about:blank","_blank");
     const digits=phoneDigits(current.phone||"");
     if(digits.length<10){toast.error("Telefone inválido.");return;}
-    if(current.status==="do_not_contact"){toast.error("Contato bloqueado.");return;}
+    if(current.status==="do_not_contact"||current.status==="not_interested"){toast.error("Este contato está bloqueado para novas mensagens.");return;}
     const text=personalize(messageDraft||assignedTemplate?.content||"",current);
     if(!text.trim()){toast.error("Selecione ou escreva uma mensagem.");return;}
+    const popup=window.open(`https://wa.me/${digits}?text=${encodeURIComponent(text)}`,"_blank","noopener,noreferrer");
+    if(!popup){toast.error("O navegador bloqueou a nova aba. Permita pop-ups e tente novamente.");return;}
     const {error}=await db.from("lead_messages").insert({lead_id:current.id,template_id:assignedTemplate?.id??null,body:text,status:"opened",direction:"outbound"});
-    if(error){toast.error(error.message);return;}
+    if(error){popup.close();toast.error(error.message);return;}
     await logEvent(current,"whatsapp_opened",{template_id:assignedTemplate?.id??null});
-    if(popup) popup.location.href=`https://wa.me/${digits}?text=${encodeURIComponent(text)}`; else toast.error("O navegador bloqueou a nova aba. Permita pop-ups para abrir o WhatsApp.");
     toast.success("Conversa aberta. Confirme o envio no WhatsApp e depois registre aqui.");
     await refresh();
   }
