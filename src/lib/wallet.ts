@@ -116,10 +116,10 @@ export function filterDocuments<T extends FilterableDoc>(docs: T[], f: Filters, 
 
 export function toneFor(key: string | null | undefined): string {
   const tones = ["tone-1", "tone-2", "tone-3", "tone-4", "tone-5"];
-  if (!key) return tones[4];
+  if (!key) return tones[4] ?? "tone-5";
   let h = 0;
   for (const c of key) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  return tones[h % tones.length];
+  return tones[h % tones.length] ?? "tone-5";
 }
 
 export function maskNumber(n: string): string {
