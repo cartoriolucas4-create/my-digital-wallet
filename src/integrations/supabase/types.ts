@@ -14,6 +14,94 @@ export type Database = {
   }
   public: {
     Tables: {
+      campaign_steps: {
+        Row: {
+          campaign_id: string
+          content_override: string | null
+          created_at: string
+          delay_minutes: number
+          id: string
+          media_asset_id: string | null
+          step_order: number
+          template_id: string | null
+          user_id: string
+        }
+        Insert: {
+          campaign_id: string
+          content_override?: string | null
+          created_at?: string
+          delay_minutes?: number
+          id?: string
+          media_asset_id?: string | null
+          step_order: number
+          template_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          campaign_id?: string
+          content_override?: string | null
+          created_at?: string
+          delay_minutes?: number
+          id?: string
+          media_asset_id?: string | null
+          step_order?: number
+          template_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_steps_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_steps_media_asset_id_fkey"
+            columns: ["media_asset_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_steps_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "message_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -144,12 +232,262 @@ export type Database = {
           },
         ]
       }
+      lead_events: {
+        Row: {
+          created_at: string
+          description: string
+          event_type: string
+          id: string
+          lead_id: string
+          metadata: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          event_type: string
+          id?: string
+          lead_id: string
+          metadata?: Json
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          event_type?: string
+          id?: string
+          lead_id?: string
+          metadata?: Json
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_messages: {
+        Row: {
+          body: string
+          campaign_id: string | null
+          created_at: string
+          direction: string
+          id: string
+          lead_id: string
+          media_asset_id: string | null
+          status: string
+          template_id: string | null
+          user_id: string
+        }
+        Insert: {
+          body?: string
+          campaign_id?: string | null
+          created_at?: string
+          direction?: string
+          id?: string
+          lead_id: string
+          media_asset_id?: string | null
+          status?: string
+          template_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          body?: string
+          campaign_id?: string | null
+          created_at?: string
+          direction?: string
+          id?: string
+          lead_id?: string
+          media_asset_id?: string | null
+          status?: string
+          template_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_messages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_messages_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_messages_media_asset_id_fkey"
+            columns: ["media_asset_id"]
+            isOneToOne: false
+            referencedRelation: "media_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_messages_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "message_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          address: string | null
+          city: string | null
+          consent_status: string
+          contact_name: string | null
+          created_at: string
+          id: string
+          instagram: string | null
+          last_contacted_at: string | null
+          name: string
+          next_follow_up_at: string | null
+          normalized_phone: string | null
+          notes: string | null
+          phone: string | null
+          source: string
+          source_id: string | null
+          source_url: string | null
+          state: string | null
+          status: string
+          tags: string[]
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          consent_status?: string
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          instagram?: string | null
+          last_contacted_at?: string | null
+          name: string
+          next_follow_up_at?: string | null
+          normalized_phone?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string
+          source_id?: string | null
+          source_url?: string | null
+          state?: string | null
+          status?: string
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          consent_status?: string
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          instagram?: string | null
+          last_contacted_at?: string | null
+          name?: string
+          next_follow_up_at?: string | null
+          normalized_phone?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string
+          source_id?: string | null
+          source_url?: string | null
+          state?: string | null
+          status?: string
+          tags?: string[]
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      media_assets: {
+        Row: {
+          created_at: string
+          id: string
+          mime_type: string
+          name: string
+          size_bytes: number
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mime_type: string
+          name: string
+          size_bytes?: number
+          storage_path: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mime_type?: string
+          name?: string
+          size_bytes?: number
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      message_templates: {
+        Row: {
+          channel: string
+          content: string
+          created_at: string
+          id: string
+          is_first_contact: boolean
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel?: string
+          content: string
+          created_at?: string
+          id?: string
+          is_first_contact?: boolean
+          name: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          channel?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_first_contact?: boolean
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      insert_prospect_leads: {
+        Args: { p_leads: Json }
+        Returns: {
+          duplicate_count: number
+          inserted_count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
