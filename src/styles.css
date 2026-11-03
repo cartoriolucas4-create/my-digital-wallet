@@ -53,7 +53,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* Single dark identity: ink navy, emerald, brass. */
+/* COZY PROSPECT: dark navy, emerald, premium SaaS identity. */
 :root {
   --radius: 0.9rem;
   --background: oklch(0.17 0.035 262);
