@@ -1,27 +1,22 @@
-import { Outlet } from "@tanstack/react-router";
-import { Eye, EyeOff, LogOut } from "lucide-react";
+import { Outlet, Link, useRouter } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { LayoutDashboard, LogOut, Search, Users, Send, MessageSquare, MapPin, BarChart3, Settings } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { usePrivacy } from "@/lib/privacy";
 import { Button } from "@/components/ui/button";
 
+const links = [
+  ["/prospect","Visão geral",LayoutDashboard],
+  ["/prospect","Prospectar",Search],
+  ["/prospect","Leads",Users],
+  ["/prospect","Central de envio",Send],
+  ["/prospect","Mensagens",MessageSquare],
+  ["/prospect","Cidades pesquisadas",MapPin],
+  ["/prospect","Relatórios",BarChart3],
+  ["/prospect","Configurações",Settings],
+] as const;
+
 export function AppShell() {
-  const { hidden, toggle } = usePrivacy();
-  return (
-    <div className="min-h-screen bg-hero">
-      <header className="mx-auto flex max-w-2xl items-center justify-between px-5 pt-6">
-        <h1 className="text-xl font-semibold">Minha Carteira</h1>
-        <div className="flex gap-1">
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label={hidden ? "Mostrar dados" : "Ocultar dados"}>
-            {hidden ? <EyeOff /> : <Eye />}
-          </Button>
-          <Button variant="ghost" size="icon" aria-label="Sair" onClick={() => supabase.auth.signOut()}>
-            <LogOut />
-          </Button>
-        </div>
-      </header>
-      <main className="mx-auto max-w-2xl px-5 pb-16 pt-4">
-        <Outlet />
-      </main>
-    </div>
-  );
+  const router=useRouter();
+  useEffect(()=>{ void router.navigate({to:"/prospect"}); },[router]);
+  return <div className="min-h-screen bg-[#0b1220] text-slate-100"><header className="flex items-center justify-between border-b border-white/10 px-5 py-4"><Link to="/prospect" className="font-display text-xl font-bold">COZY <span className="text-emerald-400">PROSPECT</span></Link><Button variant="ghost" size="sm" onClick={()=>void supabase.auth.signOut()}><LogOut size={16}/> Sair</Button></header><main><Outlet/></main></div>;
 }
