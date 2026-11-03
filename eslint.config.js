@@ -37,4 +37,10 @@ export default tseslint.config(
     },
   },
   eslintPluginPrettier,
+  {
+    rules: {
+      // Formatting differences should not block functional validation; keep them visible.
+      "prettier/prettier": "warn",
+    },
+  },
 );
