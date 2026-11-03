@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
   Activity, BarChart3, Building2, Check, ChevronDown, ChevronLeft, ChevronRight, Clipboard,
-  Download, ExternalLink, Filter, LayoutDashboard, MapPin, MessageSquare, Plus, Search,
+  Download, ExternalLink, LayoutDashboard, MapPin, MessageSquare, Plus, Search,
   Send, Settings, ShieldAlert, Users, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -67,7 +67,6 @@ function Prospect(){
   const [editing,setEditing]=useState<string|null>(null);
   const [activeLead,setActiveLead]=useState(0);
   const [messageDraft,setMessageDraft]=useState("");
-  const [history,setHistory]=useState<any[]>([]);
 
   async function refresh(){
     setLoading(true);
@@ -134,7 +133,7 @@ function Prospect(){
   }
   async function openWhatsApp(){
     if(!current)return;
-    const digits=phoneDigits(current.phone||"");
+    const popup=window.open("about:blank","_blank");\n    const digits=phoneDigits(current.phone||"");
     if(digits.length<10){toast.error("Telefone inválido.");return;}
     if(current.status==="do_not_contact"){toast.error("Contato bloqueado.");return;}
     const text=personalize(messageDraft||assignedTemplate?.content||"",current);
@@ -142,7 +141,7 @@ function Prospect(){
     const {error}=await db.from("lead_messages").insert({lead_id:current.id,template_id:assignedTemplate?.id??null,body:text,status:"opened",direction:"outbound"});
     if(error){toast.error(error.message);return;}
     await logEvent(current,"whatsapp_opened",{template_id:assignedTemplate?.id??null});
-    window.open(`https://wa.me/${digits}?text=${encodeURIComponent(text)}`,"_blank","noopener,noreferrer");
+    if(popup) popup.location.href=`https://wa.me/${digits}?text=${encodeURIComponent(text)}`; else toast.error("O navegador bloqueou a nova aba. Permita pop-ups para abrir o WhatsApp.");
     toast.success("Conversa aberta. Confirme o envio no WhatsApp e depois registre aqui.");
     await refresh();
   }
