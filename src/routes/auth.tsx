@@ -12,10 +12,10 @@ import { errorMessage } from "@/lib/api";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Entrar — Minha Carteira Digital" },
-      { name: "description", content: "Entre ou crie sua conta na Minha Carteira Digital." },
-      { property: "og:title", content: "Entrar — Minha Carteira Digital" },
-      { property: "og:description", content: "Acesse sua carteira de documentos pessoais." },
+      { title: "Entrar — COZY PROSPECT" },
+      { name: "description", content: "Entre ou crie sua conta na COZY PROSPECT." },
+      { property: "og:title", content: "Entrar — COZY PROSPECT" },
+      { property: "og:description", content: "Acesse sua plataforma de prospecção comercial." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -35,10 +35,10 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/carteira", replace: true });
+      if (data.session) navigate({ to: "/prospect", replace: true });
     });
     const { data } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: "/carteira", replace: true });
+      if (session) navigate({ to: "/prospect", replace: true });
     });
     return () => data.subscription.unsubscribe();
   }, [navigate]);
@@ -55,7 +55,7 @@ function AuthPage() {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin + "/carteira" },
+          options: { emailRedirectTo: window.location.origin + "/prospect" },
         });
         if (error) throw error;
         if (!data.session) setNotice("Enviamos um link de confirmação para seu e-mail. Confirme para entrar.");
