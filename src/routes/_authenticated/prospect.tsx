@@ -134,7 +134,8 @@ function Prospect(){
   }
   async function openWhatsApp(){
     if(!current)return;
-    const popup=window.open("about:blank","_blank");\n    const digits=phoneDigits(current.phone||"");
+    const popup=window.open("about:blank","_blank");
+    const digits=phoneDigits(current.phone||"");
     if(digits.length<10){toast.error("Telefone inválido.");return;}
     if(current.status==="do_not_contact"){toast.error("Contato bloqueado.");return;}
     const text=personalize(messageDraft||assignedTemplate?.content||"",current);
