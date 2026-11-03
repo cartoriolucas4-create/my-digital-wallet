@@ -1,5 +1,5 @@
 import { createFileRoute, useServerFn } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import {
   Activity, BarChart3, Building2, Check, ChevronDown, ChevronLeft, ChevronRight, Clipboard,
@@ -39,13 +39,13 @@ const defaults = [
   {name:"Apresentação 3",content:"Olá! Desenvolvi uma solução voltada para barbearias e acredito que pode ser interessante para a {nome_barbearia}, em {cidade}. Posso apresentar?"},
 ];
 
-function phoneDigits(value:string){return value.replace(/\\D/g,"");}
+function phoneDigits(value:string){return value.replace(/\D/g,"");}
 function personalize(text:string,lead:Lead){
-  return text.replace(/\\{nome_barbearia\\}/gi,lead.name||"sua barbearia")
-    .replace(/\\{cidade\\}/gi,lead.city||"sua cidade")
-    .replace(/\\{estado\\}/gi,lead.state||"");
+  return text.replace(/\{nome_barbearia\}/gi,lead.name||"sua barbearia")
+    .replace(/\{cidade\}/gi,lead.city||"sua cidade")
+    .replace(/\{estado\}/gi,lead.state||"");
 }
-function Card({children,className=""}:{children:React.ReactNode;className?:string}) {
+function Card({children,className=""}:{children:ReactNode;className?:string}) {
   return <section className={`rounded-2xl border border-white/10 bg-white/[0.035] p-5 shadow-lg shadow-black/10 ${className}`}>{children}</section>;
 }
 function Prospect(){
